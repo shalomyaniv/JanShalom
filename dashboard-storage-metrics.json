@@ -1,0 +1,86 @@
+{
+  "properties": {
+    "lenses": {
+      "0": {
+        "order": 0,
+        "parts": {
+          "0": {
+            "position": {
+              "x": 0,
+              "y": 0,
+              "colSpan": 6,
+              "rowSpan": 4
+            },
+            "metadata": {
+              "inputs": [
+                {
+                  "name": "options",
+                  "value": {
+                    "chart": {
+                      "metrics": [
+                        {
+                          "resourceMetadata": {
+                            "id": "/subscriptions/22c93ba5-647b-4d84-8e53-3cb756c3d847/resourceGroups/111/providers/Microsoft.Storage/storageAccounts/0storagezkmhvmnrm7jza"
+                          },
+                          "name": "Egress",
+                          "aggregationType": 4,
+                          "namespace": "microsoft.storage/storageaccounts/blobservices",
+                          "metricVisualization": {
+                            "displayName": "Egress"
+                          }
+                        }
+                      ],
+                      "title": "Avg Egress for 0storagezkmhvmnrm7jza",
+                      "titleKind": 1,
+                      "visualization": {
+                        "chartType": 2,
+                        "legendVisualization": {
+                          "isVisible": true,
+                          "position": 2,
+                          "hideSubtitle": false
+                        },
+                        "axisVisualization": {
+                          "x": {
+                            "isVisible": true,
+                            "axisType": 2
+                          },
+                          "y": {
+                            "isVisible": true,
+                            "axisType": 1
+                          }
+                        }
+                      },
+                      "timespan": {
+                        "relative": {
+                          "duration": 86400000
+                        },
+                        "showUTCTime": false,
+                        "grain": 1
+                      }
+                    }
+                  },
+                  "isOptional": true
+                },
+                {
+                  "name": "sharedTimeRange",
+                  "isOptional": true
+                }
+              ],
+              "type": "Extension/HubsExtension/PartType/MonitorChartPart"
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "model": {}
+    }
+  },
+  "name": "dashboard-storage-metrics",
+  "type": "Microsoft.Portal/dashboards",
+  "location": "INSERT LOCATION",
+  "tags": {
+    "hidden-title": "dashboard-storage-metrics"
+  },
+  "apiVersion": "2015-08-01-preview"
+}
