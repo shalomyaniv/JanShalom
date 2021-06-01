@@ -1,0 +1,61 @@
+Connect-AzAccount
+$tid = (Get-AzTenant).Id
+azcopy login $tid
+git clone https://github.com/JanShalom/JanShalom.git
+.\create-100-blobs.ps1
+
+#list all storage account names
+$RG= read-Host -Prompt 'Please Enter the Resource Group Name '
+Get-AzStorageaccount -r $RG |select StorageAccountName
+
+# set the storage account the blobs will be uploaded to
+$StorageA= read-Host -Prompt 'Please Enter the Storage A name '
+$StorageB= read-Host -Prompt 'Please Enter the Storage B name '
+
+# get StorageA account key
+$storageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $RG -Name $StorageA).Value[0]
+# get StorageB account key
+$storageAccountKeyB = (Get-AzStorageAccountKey -ResourceGroupName $RG -Name $StorageB).Value[0]
+
+# set storageA context
+$ctx=New-AzureStorageContext -StorageAccountName $StorageA -StorageAccountKey $storageAccountKey
+
+New-AzureStorageContainer -Name "ms-challenge" -Permission Blob -Context $ctx
+
+#obtain Storage A Uri.AbsoluteUri
+
+$bloburi = (Get-AzStorageAccount -ResourceGroupName $RG -Name $StorageA|select PrimaryEndpoints).PrimaryEndpoints.Web
+
+#Generate storage SAS key
+$saskey = New-AzStorageAccountSASToken -Context $ctx -Service Blob,File,Table,Queue -ResourceType Service,Container,Object -Permission racwdlup
+
+# make ms-challenge container
+# StorageA uri = $bloburi
+azcopy make https://[storagAuri].blob.core.windows.net/ms-challenge
+
+# copy Blobs from local PC to storageA
+azcopy copy  "[Local path]\*" https://[storagAuri].blob.core.windows.net/ms-challenge/[saskey] --recursive
+
+
+## Copy blobs from storageA to StorageB
+
+# set storageB context
+$ctxB=New-AzureStorageContext -StorageAccountName $Storageb -StorageAccountKey $storageAccountKey
+
+
+
+#obtain Storage B Uri.AbsoluteUri
+
+$bloburiB = (Get-AzStorageAccount -ResourceGroupName $RG -Name $StorageB|select PrimaryEndpoints).PrimaryEndpoints.Web
+
+#Generate storage SAS key
+$saskeyB = New-AzStorageAccountSASToken -Context $ctxB -Service Blob,File,Table,Queue -ResourceType Service,Container,Object -Permission racwdlup
+
+## Copy blobs from storage A to B
+# StorageA uri = $bloburi
+# StorageB uri = $bloburiB
+# StorageA SAS Keys= $saskey
+# StorageB SAS Keys= $saskeyB
+
+azcopy copy https://[storageA uri].blob.core.windows.net/ms-challenge[+ StorageA SAS Keys] https://[storageB uri].blob.core.windows.net/ms-challenge[+ StorageB SAS Keys] 
+
