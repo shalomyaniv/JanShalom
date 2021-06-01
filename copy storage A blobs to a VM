@@ -1,0 +1,3 @@
+install AZCopy on the VM and run the following command:
+
+azcopy copy 'https://[StorageA].blob.core.windows.net/ms-challenge' 'Destination path on local VM'  --recursive
