@@ -1,5 +1,5 @@
 - 👋 Hi, I’m @JanShalom
-- 👀 I’m interested in Azure
+- 👀 I feel in Love with  Azure
 - 🌱 I’m currently learning Azure Architect
 - 📫 How to reach me ...janshalommail@gmail.com
 
