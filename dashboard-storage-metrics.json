@@ -20,7 +20,7 @@
                       "metrics": [
                         {
                           "resourceMetadata": {
-                            "id": "/subscriptions/22c93ba5-647b-4d84-8e53-3cb756c3d847/resourceGroups/111/providers/Microsoft.Storage/storageAccounts/0storagezkmhvmnrm7jza"
+                            "id": "/subscriptions/[My  subscription]/resourceGroups/111/providers/Microsoft.Storage/storageAccounts/0storagezkmhvmnrm7jza"
                           },
                           "name": "Egress",
                           "aggregationType": 4,
