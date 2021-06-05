@@ -9,8 +9,8 @@ $RG = read-Host -Prompt 'Please Enter the Resource Group Name '
 Get-AzStorageaccount -r $RG |select StorageAccountName
 
 # set the storage account the blobs will be uploaded to
-$StorageA= read-Host -Prompt 'Please Enter the Storage A name '
-$StorageB= read-Host -Prompt 'Please Enter the Storage B name '
+$StorageA= read-Host -Prompt 'Please Enter the Storage A name'
+$StorageB= read-Host -Prompt 'Please Enter the Storage B name'
 
 # get StorageA account key
 $storageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $RG -Name $StorageA).Value[0]
@@ -18,7 +18,7 @@ $storageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $RG -Name $Stor
 $storageAccountKeyB = (Get-AzStorageAccountKey -ResourceGroupName $RG -Name $StorageB).Value[0]
 
 # set storageA context
-$ctx=New-AzureStorageContext -StorageAccountName $StorageA -StorageAccountKey $storageAccountKey
+$ctx = New-AzureStorageContext -StorageAccountName $StorageA -StorageAccountKey $storageAccountKey
 
 New-AzureStorageContainer -Name "ms-challenge" -Permission Blob -Context $ctx
 
