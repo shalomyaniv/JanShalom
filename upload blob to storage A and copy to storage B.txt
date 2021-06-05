@@ -1,6 +1,7 @@
+# Create and 100 blobs. Done in the Local PC
 Connect-AzAccount
 $tid = (Get-AzTenant).Id
-azcopy login $tid
+azcopy login --tenant-id $tid  
 git clone https://github.com/JanShalom/JanShalom.git
 .\create-100-blobs.ps1
 
@@ -20,21 +21,17 @@ $storageAccountKeyB = (Get-AzStorageAccountKey -ResourceGroupName $RG -Name $Sto
 # set storageA context
 $ctx = New-AzureStorageContext -StorageAccountName $StorageA -StorageAccountKey $storageAccountKey
 
+#create a Container
 New-AzureStorageContainer -Name "ms-challenge" -Permission Blob -Context $ctx
 
-#obtain Storage A Uri.AbsoluteUri
-
-$bloburi = (Get-AzStorageAccount -ResourceGroupName $RG -Name $StorageA|select PrimaryEndpoints).PrimaryEndpoints.Web
-
-#Generate storage SAS key
-$saskey = New-AzStorageAccountSASToken -Context $ctx -Service Blob,File,Table,Queue -ResourceType Service,Container,Object -Permission racwdlup
-
+#can be don via AZcopy command as well
 # make ms-challenge container
-# StorageA uri = $bloburi
-azcopy make https://[storagAuri].blob.core.windows.net/ms-challenge
+
+azcopy make https://[storagA_name].blob.core.windows.net/ms-challenge
+
 
 # copy Blobs from local PC to storageA
-azcopy copy  "[Local path]\*" https://[storagAuri].blob.core.windows.net/ms-challenge/[saskey] --recursive
+azcopy copy  "[Local path]\*" https://[storagA_name].blob.core.windows.net/ms-challenge/[saskey] --recursive
 
 
 ## Copy blobs from storageA to StorageB
