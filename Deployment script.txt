@@ -1,0 +1,14 @@
+1. Connect-AzAccount
+
+$RG = Read-Host -Prompt 'Please Enter the Resource Group Name '
+$Location = "west europe"
+$templateFile = Read-Host -Prompt 'Please provide the path to the template file'
+#we can upload the file trought the pordal as well as deply the templets trough the portal
+
+2. New-AzResourceGroup `
+  -Name $RG `
+  -Location $Location 
+
+3. New-AzResourceGroupDeployment `
+  -ResourceGroupName $RG `
+  -TemplateFile $templateFile
