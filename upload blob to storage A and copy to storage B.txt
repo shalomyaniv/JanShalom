@@ -24,13 +24,14 @@ $ctx = New-AzStorageContext -StorageAccountName $StorageA -StorageAccountKey $st
 #create a Container
 New-AzureStorageContainer -Name "ms-challenge" -Permission Blob -Context $ctx
 
-#can be don via AZcopy command as well
+#can be done via AZcopy command as well
 # make ms-challenge container
 
 azcopy make https://[storagA_name].blob.core.windows.net/ms-challenge
 
 
-# copy Blobs from local PC to storageA
+# copy Blobs from local PC to storageA 
+#sas is not a must
 azcopy cp  "[Local path]\*" https://[storagA_name].blob.core.windows.net/ms-challenge/[saskey] --recursive
 
 
