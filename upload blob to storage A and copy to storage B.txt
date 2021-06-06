@@ -24,7 +24,7 @@ $ctx = New-AzStorageContext -StorageAccountName $StorageA -StorageAccountKey $st
 #create a Container
 New-AzureStorageContainer -Name "ms-challenge" -Permission Blob -Context $ctx
 
-#can be done via AZcopy command as well
+#can be don via AZcopy command as well
 # make ms-challenge container
 
 azcopy make https://[storagA_name].blob.core.windows.net/ms-challenge
@@ -42,12 +42,13 @@ $ctxB=New-AzStorageContext -StorageAccountName $Storageb -StorageAccountKey $sto
 
 
 #obtain Storage B Uri.AbsoluteUri
-
-$bloburiB = (Get-AzStorageAccount -ResourceGroupName $RG -Name $StorageB|select PrimaryEndpoints).PrimaryEndpoints.Web
+$bloburi = (Get-AzStorageAccount -ResourceGroupName $RG -Name $StorageA|select PrimaryEndpoints).PrimaryEndpoints.blob
+$bloburiB = (Get-AzStorageAccount -ResourceGroupName $RG -Name $StorageB|select PrimaryEndpoints).PrimaryEndpoints.blob
 
 #Generate storage SAS key
-$saskey = New-AzStorageAccountSASToken -Context $ctx -Service Blob,File,Table,Queue -ResourceType Service,Container,Object -Permission racwdlup
-$saskeyB = New-AzStorageAccountSASToken -Context $ctxB -Service Blob,File,Table,Queue -ResourceType Service,Container,Object -Permission racwdlup
+
+$saskey = New-AzStorageAccountSASToken -Service Blob -ResourceType Service,Container,Object -Permission racwdlup -Context $ctx -ExpiryTime (Get-Date).AddDays(+3)
+$saskeyB = New-AzStorageAccountSASToken -Service Blob -ResourceType Service,Container,Object -Permission racwdlup -Context $ctxB -ExpiryTime (Get-Date).AddDays(+3)
 
 ## Copy blobs from storage A to B
 # StorageA uri = $bloburi
