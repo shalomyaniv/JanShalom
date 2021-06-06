@@ -19,25 +19,25 @@ $storageAccountKey = (Get-AzStorageAccountKey -ResourceGroupName $RG -Name $Stor
 $storageAccountKeyB = (Get-AzStorageAccountKey -ResourceGroupName $RG -Name $StorageB).Value[0]
 
 # set storageA context
-$ctx = New-AzureStorageContext -StorageAccountName $StorageA -StorageAccountKey $storageAccountKey
+$ctx = New-AzStorageContext -StorageAccountName $StorageA -StorageAccountKey $storageAccountKey
 
 #create a Container
 New-AzureStorageContainer -Name "ms-challenge" -Permission Blob -Context $ctx
 
-#can be don via AZcopy command as well
+#can be done via AZcopy command as well
 # make ms-challenge container
 
 azcopy make https://[storagA_name].blob.core.windows.net/ms-challenge
 
 
 # copy Blobs from local PC to storageA
-azcopy copy  "[Local path]\*" https://[storagA_name].blob.core.windows.net/ms-challenge/[saskey] --recursive
+azcopy cp  "[Local path]\*" https://[storagA_name].blob.core.windows.net/ms-challenge/[saskey] --recursive
 
 
 ## Copy blobs from storageA to StorageB
 
 # set storageB context
-$ctxB=New-AzureStorageContext -StorageAccountName $Storageb -StorageAccountKey $storageAccountKey
+$ctxB=New-AzStorageContext -StorageAccountName $Storageb -StorageAccountKey $storageAccountKey
 
 
 
@@ -46,6 +46,7 @@ $ctxB=New-AzureStorageContext -StorageAccountName $Storageb -StorageAccountKey $
 $bloburiB = (Get-AzStorageAccount -ResourceGroupName $RG -Name $StorageB|select PrimaryEndpoints).PrimaryEndpoints.Web
 
 #Generate storage SAS key
+$saskey = New-AzStorageAccountSASToken -Context $ctx -Service Blob,File,Table,Queue -ResourceType Service,Container,Object -Permission racwdlup
 $saskeyB = New-AzStorageAccountSASToken -Context $ctxB -Service Blob,File,Table,Queue -ResourceType Service,Container,Object -Permission racwdlup
 
 ## Copy blobs from storage A to B
@@ -54,5 +55,5 @@ $saskeyB = New-AzStorageAccountSASToken -Context $ctxB -Service Blob,File,Table,
 # StorageA SAS Keys= $saskey
 # StorageB SAS Keys= $saskeyB
 
-azcopy copy https://[storageA uri].blob.core.windows.net/ms-challenge[+ StorageA SAS Keys] https://[storageB uri].blob.core.windows.net/ms-challenge[+ StorageB SAS Keys] 
+azcopy cp https://[storageA uri]/ms-challenge[+ StorageA SAS Keys] https://[storageB uri]/Container_?[+ StorageB SAS Keys] --recursive
 
