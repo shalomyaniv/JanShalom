@@ -57,4 +57,4 @@ $saskeyB = New-AzStorageAccountSASToken -Service Blob -ResourceType Service,Cont
 
 
 
-azcopy cp "$bloburi/ms-challenge$saskey" "$bloburiB/111" --recursive
+azcopy cp "$bloburi/ms-challenge$saskey" "$bloburiB" --recursive
