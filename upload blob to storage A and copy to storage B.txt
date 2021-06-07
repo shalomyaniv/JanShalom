@@ -1,4 +1,3 @@
-# Create and 100 blobs. Done in the Local PC
 Connect-AzAccount
 $tid = (Get-AzTenant).Id
 azcopy login --tenant-id $tid  
@@ -27,13 +26,13 @@ New-AzStorageContainer -Name "ms-challenge" -Permission Blob -Context $ctx
 #can be done via AZcopy command as well
 # make ms-challenge container
 
-azcopy make https://[storagA_name].blob.core.windows.net/ms-challenge
+
+azcopy make https://$storageA.blob.core.windows.net/ms-challenge
 
 
-# copy Blobs from local PC to storageA 
-#sas is not a must
-azcopy cp  "[Local path]\*" https://[storagA_name].blob.core.windows.net/ms-challenge/[saskey] --recursive
-
+# copy Blobs from local PC to storageA
+#azcopy copy  "[Local path]\*" https://[storagA_name].blob.core.windows.net/ms-challenge/--recursive
+azcopy copy  "C:\ms123\*" https://$storageA.blob.core.windows.net/ms-challenge
 
 ## Copy blobs from storageA to StorageB
 
@@ -47,7 +46,6 @@ $bloburi = (Get-AzStorageAccount -ResourceGroupName $RG -Name $StorageA|select P
 $bloburiB = (Get-AzStorageAccount -ResourceGroupName $RG -Name $StorageB|select PrimaryEndpoints).PrimaryEndpoints.blob
 
 #Generate storage SAS key
-
 $saskey = New-AzStorageAccountSASToken -Service Blob -ResourceType Service,Container,Object -Permission racwdlup -Context $ctx -ExpiryTime (Get-Date).AddDays(+3)
 $saskeyB = New-AzStorageAccountSASToken -Service Blob -ResourceType Service,Container,Object -Permission racwdlup -Context $ctxB -ExpiryTime (Get-Date).AddDays(+3)
 
@@ -57,5 +55,9 @@ $saskeyB = New-AzStorageAccountSASToken -Service Blob -ResourceType Service,Cont
 # StorageA SAS Keys= $saskey
 # StorageB SAS Keys= $saskeyB
 
-azcopy cp https://[storageA uri]/ms-challenge[+ StorageA SAS Keys] https://[storageB uri]/Container_?[+ StorageB SAS Keys] --recursive
+azcopy copy https://[storageA uri].blob.core.windows.net/ms-challenge[+ StorageA SAS Keys] https://[storageB uri].blob.core.windows.net/ms-challenge[+ StorageB SAS Keys]
+azcopy cp "$bloburi/ms-challenge19888?sv=2019-07-07&sig=8IqACdz%2BrXk2AbZPVOtTzyKCaUUFq2KyAzxQwkVhgbU%3D&se=2021-06-10T03%3A40%3A02Z&srt=sco&ss=b&sp=racupwdl" "$bloburiB/111" --recursive
 
+
+azcopy cp "$bloburi/ms-challenge19888$saskey" "$bloburiB/111" --recursive #works!!!
+azcopy cp "$bloburi/ms-challenge19888/$saskey" "$bloburiB/111/" --recursive #works!!!
