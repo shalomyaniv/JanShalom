@@ -12,4 +12,4 @@ $TemplateFile = Read-Host -Prompt 'Please provide the path to the template file'
 
 3. New-AzResourceGroupDeployment `
   -ResourceGroupName $RG `
-  -TemplateFile $TemplateFile #path shoul contain ' and not"
+  -TemplateFile $TemplateFile 
