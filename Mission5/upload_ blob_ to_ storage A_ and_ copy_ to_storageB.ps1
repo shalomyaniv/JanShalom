@@ -32,7 +32,7 @@ azcopy make https://$storageA.blob.core.windows.net/ms-challenge
 
 # copy Blobs from local PC to storageA
 #azcopy copy  "[Local path]\*" https://[storagA_name].blob.core.windows.net/ms-challenge/--recursive
-azcopy copy  "C:\ms123\*" https://$storageA.blob.core.windows.net/ms-challenge
+azcopy copy  "$FolderPath\*" https://$storageA.blob.core.windows.net/ms-challenge
 
 ## Copy blobs from storageA to StorageB
 
