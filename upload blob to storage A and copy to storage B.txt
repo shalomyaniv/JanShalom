@@ -22,7 +22,7 @@ $storageAccountKeyB = (Get-AzStorageAccountKey -ResourceGroupName $RG -Name $Sto
 $ctx = New-AzStorageContext -StorageAccountName $StorageA -StorageAccountKey $storageAccountKey
 
 #create a Container
-New-AzureStorageContainer -Name "ms-challenge" -Permission Blob -Context $ctx
+New-AzStorageContainer -Name "ms-challenge" -Permission Blob -Context $ctx
 
 #can be done via AZcopy command as well
 # make ms-challenge container
