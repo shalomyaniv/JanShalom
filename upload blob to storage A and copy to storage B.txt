@@ -55,9 +55,6 @@ $saskeyB = New-AzStorageAccountSASToken -Service Blob -ResourceType Service,Cont
 # StorageA SAS Keys= $saskey
 # StorageB SAS Keys= $saskeyB
 
-azcopy copy https://[storageA uri].blob.core.windows.net/ms-challenge[+ StorageA SAS Keys] https://[storageB uri].blob.core.windows.net/ms-challenge[+ StorageB SAS Keys]
-azcopy cp "$bloburi/ms-challenge19888?sv=2019-07-07&sig=8IqACdz%2BrXk2AbZPVOtTzyKCaUUFq2KyAzxQwkVhgbU%3D&se=2021-06-10T03%3A40%3A02Z&srt=sco&ss=b&sp=racupwdl" "$bloburiB/111" --recursive
 
 
-azcopy cp "$bloburi/ms-challenge19888$saskey" "$bloburiB/111" --recursive #works!!!
-azcopy cp "$bloburi/ms-challenge19888/$saskey" "$bloburiB/111/" --recursive #works!!!
+azcopy cp "$bloburi/ms-challenge$saskey" "$bloburiB/111" --recursive
